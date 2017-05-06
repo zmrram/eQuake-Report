@@ -1,22 +1,88 @@
 $(function() {
-    function worldDataAJAX() {
+    function worldDataAJAX(mag) {
         $.ajax({
             url: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson',
             type: 'GET',
             dataType: 'json',
             success: function(response) {
-                $.each(response.features, function(index, val) {
-                    addMarkers(val);
-                });
+                if (mag) {
+                	filterData(response,mag);
+                } else {
+                    $.each(response.features, function(index, val) {
+                        addMarkers(val);
+                    });
+                }
             }
         })
     }
 
-    function addInfo(data){
-    	var content = "";
-    	content += "Location: " + data.properties.place + "<br>";
-    	content += "Magnitude: " + data.properties.mag;
-    	return content;
+    function filterData(data, mag) {
+        switch (mag) {
+            case 1:
+                $.each(data.features, function(index, val) {
+                    if (val.properties.mag < 2.5) {
+                        addMarkers(val);
+                    }
+                });
+                break;
+            case 2:
+                $.each(data.features, function(index, val) {
+                    if (val.properties.mag >= 2.5 && val.properties.mag < 5.5) {
+                        addMarkers(val);
+                    }
+                });
+                break;
+            case 3:
+                $.each(data.features, function(index, val) {
+                    if (val.properties.mag >= 5.5 && val.properties.mag < 6.1) {
+                        addMarkers(val);
+                    }
+                });
+                break;
+            case 4:
+                $.each(data.features, function(index, val) {
+                    if (val.properties.mag >= 6.1 && val.properties.mag < 7) {
+                        addMarkers(val);
+                    }
+                });
+                break;
+            case 5:
+                $.each(data.features, function(index, val) {
+                    if (val.properties.mag >= 7) {
+                        addMarkers(val);
+                    }
+                });
+                break;
+        }
+    }
+
+    function addInfo(data) {
+        var content = "";
+        content += "Location: " + data.properties.place + "<br>";
+        content += "\nMagnitude: " + data.properties.mag;
+        return content;
+    }
+
+    function chooseMarker(magnitude) {
+        marker = "";
+        if (magnitude < 2.5) {
+            marker = 'http://labs.google.com/ridefinder/images/mm_20_white.png';
+        } else if (magnitude >= 2.5 && magnitude < 5.5) {
+            marker = 'http://labs.google.com/ridefinder/images/mm_20_blue.png';
+        } else if (magnitude >= 5.5 && magnitude < 6.1) {
+            marker = 'http://labs.google.com/ridefinder/images/mm_20_green.png';
+        } else if (magnitude >= 6.1 && magnitude < 6.9) {
+            marker = 'http://labs.google.com/ridefinder/images/mm_20_orange.png';
+        } else {
+            marker = 'http://labs.google.com/ridefinder/images/mm_20_red.png';
+        }
+        return marker;
+    }
+
+    function removeMarkers() {
+        for (i = 0; i < allMarkers.length; i++) {
+            allMarkers[i].setMap(null);
+        }
     }
 
     function addMarkers(data) {
@@ -24,11 +90,13 @@ $(function() {
         var lat = data.geometry.coordinates[1];
         var latlng = lat + "," + lng;
         var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(lat,lng),
-            map: map,
+            position: new google.maps.LatLng(lat, lng),
+            animation: google.maps.Animation.DROP,
+            icon: chooseMarker(data.properties.mag),
+            map: map
         });
+        allMarkers.push(marker);
         var content = addInfo(data);
-
         google.maps.event.addListener(marker, 'click', (function(marker) {
             return function() {
                 infoWindow.setContent(content);
@@ -73,6 +141,7 @@ $(function() {
     function mapInit() {
         var mapOptions = {
             zoom: 5,
+            minZoom : 2,
             center: new google.maps.LatLng(32.09024, -100, 712991),
             panControl: false,
             panControlOptions: {
@@ -96,8 +165,34 @@ $(function() {
         return map;
     }
 
-    $('#search').click(worldDataAJAX);
-
+    function listener() {
+        $('#allEQ').click(function() {
+            removeMarkers();
+            worldDataAJAX();
+        });
+        $('#xsEQ').click(function() {
+            removeMarkers();
+            worldDataAJAX(1);
+        });
+        $('#sEQ').click(function() {
+            removeMarkers();
+            worldDataAJAX(2);
+        });
+        $('#mEQ').click(function() {
+            removeMarkers();
+            worldDataAJAX(3);
+        });
+        $('#lEQ').click(function() {
+            removeMarkers();
+            worldDataAJAX(4);
+        });
+        $('#xlEQ').click(function() {
+            removeMarkers();
+            worldDataAJAX(5);
+        });
+    }
+    var allMarkers = [];
     var map = mapInit();
+    listener();
 
 });
