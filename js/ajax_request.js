@@ -197,7 +197,8 @@ $(function() {
 
     function getForm(){
     	$('#radius-box').slideToggle('slow', function() {
-    		$('#submit').click(function(){
+    		$('#submit').click(function(e){
+    			e.preventDefault();
     			$('#radius-box').slideUp('slow');
     			removeMarkers();
     			var radius = $('#search-radius').val();
