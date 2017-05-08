@@ -14,28 +14,37 @@
 
 <body>
     <div class="container">
-
         <div class="row content">
-            <div class="col-xs-4" id = "side">
+            <div class="col-xs-4" id="side">
                 <nav class="side-bar nav">
                     <div class="buttons">
                         <button id='allEQ' class="btn btn-primary center-block">World's Earthquakes</button>
                         <br>
                         <button id='myEQ' class="btn btn-primary center-block">Earthquakes Around Me</button>
-                        <form id = "radius-box" class = "form-inline">
-                            <label style="color: white">Radius</label><br><input type="number" id="search-radius" placeholder="Max: 10000 miles" min="1" max="10000"><br>
-                            <input class="btn btn-primary" type="submit" id = "submit" value = "OK">
+                        <form id="radius-box" class="form-inline">
+                            <label style="color: white">Radius</label>
+                            <br>
+                            <input type="number" id="search-radius" placeholder="Max: 10000 miles" min="1" max="10000">
+                            <br>
+                            <input class="btn btn-primary" type="submit" id="submit" value="OK">
                         </form>
                         <br>
                         <button id='seletedEQ' class="btn btn-primary center-block">Look up Earthquakes</button>
                         <br>
                         <button id='filterEQ' class="btn btn-primary center-block">Filter</button>
-                        <div id = 'filter-buttons'>
-                            <button id='xsEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_white.png"></button>
-                            <button id='sEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_blue.png"></button>
-                            <button id='mEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_green.png"></button>
-                            <button id='lEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_orange.png"></button>
-                            <button id='xlEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_red.png"></button>
+                        <div id='filter-buttons' class = "container">
+                            <div class='row'>
+                                <button id='xsEQ' class="btn btn-primary col-xs-6"><img src="http://labs.google.com/ridefinder/images/mm_20_white.png"></button>
+                                <button id='sEQ' class="btn btn-primary col-xs-6"><img src="http://labs.google.com/ridefinder/images/mm_20_blue.png"></button>
+                            </div>
+                            <div class='row'>
+                                <button id='mEQ' class="btn btn-primary col-xs-6"><img src="http://labs.google.com/ridefinder/images/mm_20_green.png"></button>
+                                <button id='lEQ' class="btn btn-primary col-xs-6"><img src="http://labs.google.com/ridefinder/images/mm_20_orange.png"></button>
+                            </div>
+                            <div class='row'>
+                                <button id='xlEQ' class="btn btn-primary col-xs-6"><img src="http://labs.google.com/ridefinder/images/mm_20_red.png"></button>
+                                <button id='cancel-filter' class="btn btn-primary col-xs-6"><img src="http://labs.google.com/ridefinder/images/mm_20_black.png"></button>
+                            </div>
                         </div>
                     </div>
                 </nav>
@@ -77,6 +86,13 @@
         $('#seletedEQ').click(function() {
             $('#filter-box').fadeToggle('slow');
         });
+        
+        $("#xsEQ").attr('title', 'Mag: 0-2.4');
+        $("#sEQ").attr('title', 'Mag: 2.5-5.4');
+        $("#mEQ").attr('title', 'Mag: 5.5-6');
+        $("#lEQ").attr('title', 'Mag: 6.1-6.9');
+        $("#xlEQ").attr('title', 'Mag: >7');
+        $("#cancel-filter").attr('title', 'Show All');
     });
     </script>
 </body>

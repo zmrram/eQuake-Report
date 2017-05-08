@@ -90,9 +90,14 @@ var ggmap = (function() {
         filterMap: function(icon) {
             clearMarkers();
             for (var i = 0; i < allMarkers.length; i++) {
-                if (allMarkers[i].icon === icon){
-                	allMarkers[i].setAnimation(google.maps.Animation.BOUNCE);
-                	allMarkers[i].setMap(map);
+                if (icon == "http://labs.google.com/ridefinder/images/mm_20_black.png") {
+                    allMarkers[i].setAnimation(google.maps.Animation.BOUNCE);
+                    allMarkers[i].setMap(map);
+                } else {
+                    if (allMarkers[i].icon === icon) {
+                        allMarkers[i].setAnimation(google.maps.Animation.BOUNCE);
+                        allMarkers[i].setMap(map);
+                    }
                 }
             }
         }

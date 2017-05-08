@@ -45,6 +45,7 @@ $(function() {
 
             function success(position) {
                 userCoord = position.coords;
+                 map.setCenter(new google.maps.LatLng(userCoord.latitude, userCoord.longitude));
                 var yesterday = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
                 var requestParam = {
                     'starttime': yesterday,
@@ -119,6 +120,11 @@ $(function() {
         	var icon = $('#xlEQ').children()[0].currentSrc;
         	ggmap.filterMap(icon);
         });
+        $('#cancel-filter').click(function() {
+            var icon = $('#cancel-filter').children()[0].currentSrc;
+            ggmap.filterMap(icon);
+        });
+
         $('#myEQ').click(getForm);
         $('#filterEQ').click(function() {
             $('#filter-buttons').slideToggle('slow', function() {
