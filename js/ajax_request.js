@@ -10,15 +10,13 @@ $(function() {
             },
             success: function(response) {
                 $.each(response.features, function(index, val) {
-                    addMarkers(val);
+                    ggmap.addMarker(val);
                 });
             }
         })
     }
 
     function addMarkers(data) {
-        var marker = ggmap.addMarker(data);
-        allMarkers.push(marker);
         // $.ajax({
         //     url: 'https://maps.googleapis.com/maps/api/geocode/json?',
         //     type: 'GET',
@@ -70,7 +68,7 @@ $(function() {
             data: queryParam,
             success: function(response) {
                 $.each(response.features, function(index, val) {
-                    addMarkers(val);
+                    ggmap.addMarker(val);
                 });
             }
         })
@@ -91,6 +89,7 @@ $(function() {
                     radius = (parseInt(radius) * 0.621371).toString();
                     getUserCoord(radius);
                 }
+                $('#search-radius').val('');
             });
         });
     }
@@ -127,7 +126,6 @@ $(function() {
             });
         });
     }
-    var allMarkers = [];
     var map = ggmap.mapInit();
     listener();
 
