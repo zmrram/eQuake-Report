@@ -13,5 +13,39 @@
 }
 
 .buttons {
-	padding-left: 10%;
+	margin-top: 5%;
+}
+
+#filter-box {
+	position: absolute;
+	height: 40%;
+	width: 80%;
+	background-color: white;
+	top : 20%;
+	left : 10%;
+	display: none;
+}
+
+#filter-form {
+	margin-top: 5%;
+	margin-left: 3%;
+	margin-right: 3%;
+}
+
+#form-buttons {
+	position: absolute;
+	bottom: 0;
+	margin-bottom: 5%;
+}
+
+#form-buttons button {
+	margin-bottom: 2%;
+}
+
+#radius-box {
+	margin-left: 15%;
+	margin-right: 15%;
+	padding-bottom: 5%;
+	background-color: #7c828c;
+	display: none;
 }

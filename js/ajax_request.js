@@ -1,12 +1,16 @@
 $(function() {
     function worldDataAJAX(mag) {
+        var yesterday = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
         $.ajax({
-            url: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson',
+            url: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson',
             type: 'GET',
             dataType: 'json',
+            data: {
+                'starttime': yesterday
+            },
             success: function(response) {
                 if (mag) {
-                	filterData(response,mag);
+                    filterData(response, mag);
                 } else {
                     $.each(response.features, function(index, val) {
                         addMarkers(val);
@@ -59,7 +63,8 @@ $(function() {
     function addInfo(data) {
         var content = "";
         content += "Location: " + data.properties.place + "<br>";
-        content += "\nMagnitude: " + data.properties.mag;
+        content += "Magnitude: " + data.properties.mag + "<br>";
+        content += "Time: " + new Date(data.properties.time);
         return content;
     }
 
@@ -122,16 +127,41 @@ $(function() {
         // })
     }
 
-    function selectedDataAJAX() {
+    function getUserCoord(radius) {
+        var userCoord;
+        if (navigator.geolocation) {
+            function error(err) {
+                console.warn('ERROR(' + err.code + '): ' + err.message);
+            }
+
+            function success(position) {
+                userCoord = position.coords;
+                var yesterday = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+                var requestParam = {
+                	'starttime' : yesterday,
+                    'latitude': userCoord.latitude,
+                    'longitude': userCoord.longitude,
+                    'maxradiuskm': radius
+                };
+                selectedDataAJAX(requestParam);
+            }
+
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            alert('Geolocation is not supported')
+        }
+    }
+
+    function selectedDataAJAX(queryParam) {
         $.ajax({
-            url: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&',
+            url: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson',
             type: 'GET',
             dataType: 'json',
-            data: {
-                param1: 'value1'
-            },
-            sucess: function(response) {
-
+            data: queryParam,
+            success: function(response) {
+                $.each(response.features, function(index, val) {
+                    addMarkers(val);
+                });
             }
         })
 
@@ -141,7 +171,7 @@ $(function() {
     function mapInit() {
         var mapOptions = {
             zoom: 5,
-            minZoom : 2,
+            minZoom: 2,
             center: new google.maps.LatLng(32.09024, -100, 712991),
             panControl: false,
             panControlOptions: {
@@ -163,6 +193,23 @@ $(function() {
             infoWindow.close();
         });
         return map;
+    }
+
+    function getForm(){
+    	$('#radius-box').slideToggle('slow', function() {
+    		$('#submit').click(function(){
+    			$('#radius-box').slideUp('slow');
+    			removeMarkers();
+    			var radius = $('#search-radius').val();
+    			if (radius === ""){
+    				getUserCoord('160');
+    			}
+    			else {
+    				radius = (parseInt(radius) * 0.621371).toString();
+    				getUserCoord(radius);
+    			}
+    		});
+    	});
     }
 
     function listener() {
@@ -190,6 +237,7 @@ $(function() {
             removeMarkers();
             worldDataAJAX(5);
         });
+        $('#myEQ').click(getForm);
     }
     var allMarkers = [];
     var map = mapInit();
