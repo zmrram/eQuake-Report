@@ -9,10 +9,12 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvwaz-AlpoWn3GEa2xPDhdnmZ5eZaq--g"></script>
     <script src="js/ajax_request.js"></script>
+    <script src="js/ggmap.js"></script>
 </head>
 
 <body>
     <div class="container">
+
         <div class="row content">
             <div class="col-xs-4" id = "side">
                 <nav class="side-bar nav">
@@ -27,6 +29,14 @@
                         <br>
                         <button id='seletedEQ' class="btn btn-primary center-block">Look up Earthquakes</button>
                         <br>
+                        <button id='filterEQ' class="btn btn-primary center-block">Filter</button>
+                        <div id = 'filter-buttons'>
+                            <button id='xsEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_white.png"></button>
+                            <button id='sEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_blue.png"></button>
+                            <button id='mEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_green.png"></button>
+                            <button id='lEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_orange.png"></button>
+                            <button id='xlEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_red.png"></button>
+                        </div>
                     </div>
                 </nav>
             </div>
@@ -55,12 +65,6 @@
                             </select>
                         </div>
                         <div id="form-buttons">
-                            <button id='xsEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_white.png"></button>
-                            <button id='sEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_blue.png"></button>
-                            <button id='mEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_green.png"></button>
-                            <button id='lEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_orange.png"></button>
-                            <button id='xlEQ' class="btn btn-primary"><img src="http://labs.google.com/ridefinder/images/mm_20_red.png"></button>
-                            <br>
                             <input class="btn btn-primary" type="submit" value="Filter" id="filter">
                         </div>
                     </form>

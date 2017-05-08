@@ -53,3 +53,9 @@
 #search-radius {
 	width: 100%;
 }
+
+#filter-buttons {
+	width: 60%;
+  	margin: 5% auto;
+  	display: none;
+}
