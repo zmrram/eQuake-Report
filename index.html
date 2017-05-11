@@ -55,26 +55,23 @@
                     <form id='filter-form' class="form-horizontal">
                         <div id="form-content">
                             <label>Start:
-                                <input type="date" id="starttime">
+                                <input type="date" id="starttime" min = '2017-01-01'>
                             </label>
                             <br>
                             <label>End:
-                                <input type="date" id="endtime">
+                                <input type="date" id="endtime" min ='2017-01-01'>
                             </label>
                             <br>
-                            <select class="form-control">
-                                <option value="">-Select-</option>
-                                <option value="Africa">Africa</option>
-                                <option value="Antarctica">Antarctica</option>
-                                <option value="Asia">Asia</option>
-                                <option value="Australia">Australia</option>
-                                <option value="Europe">Europe</option>
-                                <option value="North America">North America</option>
-                                <option value="South America">South America</option>
-                            </select>
+                            <label>Location: </label><input type="text" id = 'address' placeholder="United States"> <br>
+                            <label id = "range-box">
+                                <h6>Location is too small, add range for a wider search</h6>
+                                Radius: 
+                                <input type="text" id = 'range' onclick = "this.select()">      
+                            </label>
                         </div>
                         <div id="form-buttons">
-                            <input class="btn btn-primary" type="submit" value="Filter" id="filter">
+                            <input class="btn btn-primary" type="submit" value="Search" id="searchEQ">
+                            <input class="btn btn-primary" type="submit" value ="Cancel" id ="cancel-search">
                         </div>
                     </form>
                 </div>
@@ -85,8 +82,18 @@
     $(function() {
         $('#seletedEQ').click(function() {
             $('#filter-box').fadeToggle('slow');
+            $('#cancel-search').click(function(e) {
+                e.preventDefault();
+                $('#filter-box').fadeOut('slow');
+                document.getElementById("filter-form").reset();
+            });
         });
-        
+        $('#filterEQ').click(function() {
+            $('#filter-buttons').slideToggle('slow', function() {
+
+            });
+        });
+
         $("#xsEQ").attr('title', 'Mag: 0-2.4');
         $("#sEQ").attr('title', 'Mag: 2.5-5.4');
         $("#mEQ").attr('title', 'Mag: 5.5-6');

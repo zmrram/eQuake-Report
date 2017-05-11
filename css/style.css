@@ -62,3 +62,16 @@
 #filter-buttons button{
 	margin-bottom: 5%;
 }
+
+#address {
+	width: 70%;
+}
+
+#range-box{
+	display: none;
+}
+
+#range {
+	width: 20%;
+
+}
