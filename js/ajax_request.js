@@ -44,6 +44,7 @@ $(function() {
                                 'longitude': location.lng,
                                 'maxradiuskm': $('#range').val()
                                 };
+                                ggmap.removeMarkers();
                                 selectedDataAJAX(query);
                             }
                         }
@@ -70,6 +71,7 @@ $(function() {
                                 'maxlatitude' : maxlatitude,
                                 'maxlongitude' : maxlongitude
                             };
+                            ggmap.removeMarkers();
                             selectedDataAJAX(query);
                         }
                     }
