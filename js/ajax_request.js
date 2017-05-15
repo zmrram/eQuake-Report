@@ -44,16 +44,22 @@ $(function() {
                                 'longitude': location.lng,
                                 'maxradiuskm': $('#range').val()
                                 };
+                                $('#filter-box').fadeOut('slow');
                                 ggmap.removeMarkers();
+                                map.setCenter(new google.maps.LatLng(location.lat,location.lng));
                                 selectedDataAJAX(query);
                             }
                         }
                         else{
                             var bounds = response.results[0].geometry.bounds;
+                            var bound = new google.maps.LatLngBounds();
                             var minlatitude = bounds.southwest.lat;
                             var minlongitude = bounds.southwest.lng;
                             var maxlatitude = bounds.northeast.lat;
                             var maxlongitude = bounds.northeast.lng;
+                            bound.extend(new google.maps.LatLng(minlatitude,minlongitude));
+                            bound.extend(new google.maps.LatLng(maxlatitude,maxlongitude));
+                            console.log(bound);
                             if (parseFloat(minlatitude) > parseFloat(maxlatitude)){
                                 minlatitude = (parseFloat(minlatitude) * -1).toString();
                                 maxlatitude = (parseFloat(maxlatitude) * -1).toString();
@@ -71,7 +77,9 @@ $(function() {
                                 'maxlatitude' : maxlatitude,
                                 'maxlongitude' : maxlongitude
                             };
+                            $('#filter-box').fadeOut('slow');
                             ggmap.removeMarkers();
+                            map.fitBounds(bound);
                             selectedDataAJAX(query);
                         }
                     }
@@ -92,6 +100,12 @@ $(function() {
             function success(position) {
                 userCoord = position.coords;
                 map.setCenter(new google.maps.LatLng(userCoord.latitude, userCoord.longitude));
+                if (parseInt(radius) < 1000){
+                    map.setZoom(7);
+                }
+                else{
+                    map.setZoom(6);
+                }
                 var yesterday = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
                 var requestParam = {
                     'starttime': yesterday,
